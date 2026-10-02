@@ -39,7 +39,7 @@ git clone https://github.com/ThomasMOwen/floci-terraform.git
 cd floci-terraform
 ```
 
-### 2. Create the floci 
+### 2. Create the floci environment
 
 ```bash
 docker compose up
@@ -105,11 +105,11 @@ kubectl get pods -n {created-namespace}
 ## Repository Structure
 
 ```
-terraform-modules/
+floci-with-terraform/
 |
 ├── modules/                   # Module configurations
 │   ├── pods/                  # Configuration to deploy applications to the EKS cluster
-│   ├── network/               # Configuration for networking required by the EKS cluster
+│   ├── networking/               # Configuration for networking required by the EKS cluster
 │   ├── cluster/               # Configuration for the EKS cluster
 │   └── s3/                    # Configuration for bucket and object hosting environment metadata
 │
@@ -129,7 +129,7 @@ terraform-modules/
 
 ### Terraform Modules
 
-Modules were created to abstract AWS networking, cluster creation and app deployment on to the EKS cluster. Variables were passed to the modules and outputs captured from the network module used by the cluster. \
+Modules were created to abstract AWS networking, cluster creation and app deployment on to the EKS cluster. Variables were passed to the modules and outputs captured from the networking module used by the cluster. \
 Using env.tfvars to define applications means pods can be added, removed, or changed without touching the Terraform config itself.
 
 ### AWS Networking
@@ -146,12 +146,12 @@ The pods module can deploy a dynamic amount of applications to the EKS cluster w
 
 ## What I'd Do Next
 
-- **IPV6 Networking** - Currently VPC is limited to IPV4, extending to IPV6 would reflect production more accurately.
-- **More sophisticated access controls** - there are further access controls to experiment with such as bucket ACLs.
-- **ArgoCD intergration experimentation** - it would be interesting to see if ArgoCD could be used for application deployment instead of the kubernetes provider.
+- **IPV6 Networking** - Currently the VPC is limited to IPV4, extending to IPV6 would reflect production more accurately.
+- **More sophisticated access controls** - There are further access controls to experiment with such as bucket ACLs.
+- **ArgoCD intergration experimentation** - It would be interesting to see if ArgoCD could be used for application deployment instead of the kubernetes provider.
 
 ---
 
 ## Known Limitations
 
-- Kubernetes access is set to insecure - Certficate Authority is emulated and is causing a mismatch with the certificate found in the K3s container. To workaround x509 verification failures "insecure" was set to true.
+- Kubernetes access is set to insecure - Certficate Authority is emulated and is causing a mismatch with the certificate found in the K3s container. To workaround x509 verification failures "insecure" in the Kubernetes provider was set to true.
