@@ -1,0 +1,18 @@
+services:
+  floci:
+    image: floci/floci:latest
+    container_name: floci
+    ports:
+      - "4566:4566"
+    user: root
+    environment:
+      - FLOCI_HOSTNAME=floci
+    volumes:
+     - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+     - floci-env
+
+networks:
+  floci-env:
+    name: floci-env
+    external: false 
